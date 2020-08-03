@@ -1,4 +1,4 @@
-########################## Basic mathematics #####################
+##################### Basic mathematics ##########################
 12+8
 12*64
 (543+6472)*7
@@ -128,3 +128,54 @@ names(a)[2]
 head(a) # allows you to see the first 6 rows
 tail(a) # allows you to see the last 6 rows
 
+################### More on Dataframes #####################
+
+a$age # the dollar sign ($) with the data frame allows you to access the variables within it
+
+a[2] # allows you to access the whole column
+a[2,2] # it specifically pin points the corresponding row and column 
+a[3,2] # the first to go is the row and the second is the column
+a[3, 1:3] # this invokes the 3rd row from each column
+a[3, ] # leaving the row or column empty (in this case, column) will display either the whole row or the whole column
+
+a[,3] # Displays entire column 3
+
+class(a["age"]) # THis will return data.frame because you are returning a piece of the df.
+class(a[,"age"]) # In this case you are returning the entire column of the df which will result in numeric classification
+
+# A better way to see the type is using the str function
+str(a)
+
+###################### List #############################
+
+# Under a list you can store a combination of data types like numeric, strings, df or list
+
+marklist = list(71, "steak", "cat", a); marklist
+
+# accessing list
+
+names(marklist) = c("number", "food", "animal", "exdf")
+marklist[["food"]]
+
+marklist[["exdf"]]$age # we can extract more with the dollar sign with the name of the df
+
+# adding another into the list
+
+length(marklist)
+
+marklist[["game"]] = "SSBU"; marklist
+length(marklist)
+
+####################### Matrix ##########################
+
+# It has to contain the same data type
+
+one = matrix(1:100, nrow = 10); one
+
+# To do the following we want to have the same dimension
+# Use the dim function
+
+two = matrix(51:60, nrow =  2); two
+three = matrix(61:70, nrow =  2); three
+
+two * three
