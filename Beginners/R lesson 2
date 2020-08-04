@@ -1,0 +1,45 @@
+############################################ Work Directory ###################################################################
+
+getwd() # this is tells you the default working directory
+setwd("~/R/R_codes") # This allows you to set the work directory. You would need the file path
+x = read.csv("society_data.csv", header = TRUE, sep = ",")
+head(x)
+
+# Alternatively, you can directly access the link without the need of downloading it
+
+y = read.csv("https://www.stats.govt.nz/assets/Uploads/Tools/CSV-files-for-download/analysis-public-place-assaults-sexual-assaults-and-robberies-2015-csv.csv", header = TRUE, sep = ",")
+
+# header being true will tell R that the first row is the header (i.e., column name)
+# sep is to denote how the file is separated in this case it is a csv = ","
+
+
+########################################## Installing Packages ###############################################################
+install.packages("XML") # You would need to do this once
+library(XML)
+countries = readHTMLTable("http://www.simplehtmlguide.com/livedemo.php?e=tables1")
+# Note that it works with "HTTP" Not "https" files
+
+################################### Charts and Graphs ########################################################################
+
+
+dataset = read.csv("brUsers.csv", header = TRUE, sep = ",")
+head(dataset)
+
+
+# This creates a histogram, with main being the main title, ylab is the y-axis title, xlab is x-axis title
+hist(user$age, main = "Ages of users on dataset", ylab = "users", xlab = "ages")
+
+# This creates a scatterplot
+plot(dataset$age, dataset$income, ylab = "income", xlab = "age")
+
+# By the name this function creates a box plot
+boxplot(dataset$age)
+
+######################## Scatterplot and ggplot2 ##############################################################################
+
+# You might want to install the package if you have not done so
+library(ggplot2)
+
+head(diamonds)
+
+qplot(diamonds$carat, diamonds$price,data = diamonds, color = diamonds$clarity)
