@@ -34,6 +34,12 @@ is.numeric(b)
 is.numeric(c)
 is.numeric(d)
 
+# Common characteristics 
+# numeric (integer, single, double)
+# character
+# logical (boolean)
+# complex and raw
+
 ######################### Dates ############################
 
 name = "Amazing food"
@@ -179,3 +185,36 @@ two = matrix(51:60, nrow =  2); two
 three = matrix(61:70, nrow =  2); three
 
 two * three
+
+
+#### More information on Vector, matrix/array, data frame, list ####
+
+# Vector
+# 1) 1+ numbers in a 1-D array
+# 2) All same data type
+# 3) R's basic data object
+
+# Matrix
+# 1) Two dimensions
+# 2) Same length
+# 3) Same data class
+# 4) Columns not named
+
+# Array
+# 1) Identical to a matrix but 3+ dimensions
+# Example
+
+a1 = array(c(1:24), c(4,3,2))
+# This 1:24 gives you numbers, and the RHS is the rows, columns, and tables 
+
+# Data frame
+# 1) Can have vectors of multiple types
+# 2) All same length
+# 3) Closest R analog to spreadsheet
+# 4) Special functions
+
+# List
+# 1) Most flexible
+# 2) Ordered collection of elements
+# 3) Any class, length, or structure
+# 4) can include list 
