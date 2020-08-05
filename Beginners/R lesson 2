@@ -4,6 +4,7 @@ Learning Objectives:
 3) Charts and Graphs
 4) Scatterplot and ggplot2
 
+
 ############################################ Work Directory ###################################################################
 
 getwd() # this is tells you the default working directory
