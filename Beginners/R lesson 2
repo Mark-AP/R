@@ -3,6 +3,7 @@ Learning Objectives:
 2) Installing Packages
 3) Charts and Graphs
 4) Scatterplot and ggplot2
+5) Order, sequence, and repetition
 
 
 ############################################ Work Directory ###################################################################
@@ -50,3 +51,30 @@ library(ggplot2)
 head(diamonds)
 
 qplot(diamonds$carat, diamonds$price,data = diamonds, color = diamonds$clarity)
+
+############################### Order, scan, sequence, and repetition ################################################################
+
+# Another way to do "<-" is to do Alt and - and the same time for Windows; Mac user: option and -
+# Ascending and Descending order, respectively
+
+a = 0:10;a
+b = 10:0;b
+
+# Sequence function
+c <- seq(10);c
+
+d <- seq(30,0, by= -2);d # Goes down from 30 to 0 by an increments of 2
+
+#### Scanning ###
+
+f = scan() # After excuting this go to the command prompt
+# Put as many numbers as desire
+# After you are done click enter twice
+f
+
+#### Repetition ###
+g <- rep(TRUE, 8);g
+h <- rep(c(TRUE,FALSE), 5); h # This repeats the set 5 times
+i <- rep(c(TRUE,FALSE), each = 3);i # repeats true 3 times then false 
+
+# rm(list =ls())  # To clean the environment
