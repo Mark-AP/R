@@ -1,0 +1,198 @@
+Learning Objectives:
+1) Factors
+2) Importing using rio package
+3) Hierarchical Clustering
+4) Regression
+
+####################################### Factors ##############################################################
+
+### An attribute of vector that specifices the possible values and their order
+
+(x1 = 1:2) # Having the number in () will display the numbers in the console
+(y = 1:20)
+
+(df1 = cbind.data.frame(x1,y))
+
+typeof(df1$x1)
+str(df1) # we see that x1 and y are integers (int); we can change these
+
+(x2 = as.factor(c(1:4)))
+(df2 = cbind.data.frame(x2,y))
+typeof(df2$x2)
+str(df2)
+# df2 shows variable x2 as a factor (i.e., as qualatative information)
+
+### We can also take an existing variable and convert it to a factor variable
+x3 = c(1:5)
+df3 = cbind.data.frame(x3,y)
+((df3$x3 = factor(df3$x3, levels = c(1,2,3,4,5))))
+typeof(df3$x3)
+str(df3)
+
+### Labeling factors
+
+x4 = c(1:2)
+df4 = cbind.data.frame(x4,y)
+df4$x4 = factor(df4$x4, levels = c(1,2), labels = c("Android", "Iphone")); df4
+
+typeof(df4$x4) # Still tells us that it is an integer
+str(df4) # Will display the labeled names then the corresponding factor values
+
+x5 = c(1:2)
+df5 = cbind.data.frame(x5,y)
+(df5$x5 = ordered(df5$x5, levels = c(2,1), labels = c("Yes", "No")))
+df5
+
+typeof(df5$x5)
+str(df5)
+
+####################################### Importing ############################################################
+
+# There are many values that you can import with R such files include:
+# 1) CSV: Comma separated values; Basically the plain text version of a spreadsheet
+# 2) TXT: Text documents 
+# 3) XLSX/XLX: Excel files
+# 4) JSON: Java Script Object Notation
+# 5) DTA; Stata files
+
+# A useful package to import is the rio: R input/output which combines all R's import into one simple utility
+
+library(rio) 
+
+browseURL("http://j.mp/2aFZUrJ") # This will pull up the official R website on importing files
+
+
+# CSV
+rio_csv <- import("mbb.csv")
+head(rio_csv)
+
+# TXT
+rio_txt <- import("mbb.txt")
+head(rio_txt)
+
+# Excel XLSX
+rio_xlsx <- import("mbb.xlsx")
+head(rio_xlsx)
+
+# With the rio package you do not have to worry about the file type since the import function does the work for you
+# To look at your dataset is to use the View() function or the white spreadsheet near the file name in the global environment
+
+# Old fashion way (From freecodecamp)
+
+# Load a spreadsheet that has been saved as tab-delimited
+# text file. Need to give complete address to file. This
+# command gives an error on missing data but works on
+# complete data.
+r_txt1 <- read.table("mbb.txt", header = TRUE)
+
+# This works with missing data by specifying the separator: 
+# \t is for tabs, sep = "," for commas. R converts missing
+# to "NA"
+r_txt2 <- read.table("mbb.txt", 
+                     header = TRUE, 
+                     sep = "\t")
+
+# READ.CSV FOR CSV FILES ###################################
+
+# R's built-in function for csv files (also used by rio)
+
+# CSV FILES
+# Don't have to specify delimiters for missing data
+# because CSV means "comma separated values"
+trends.csv <- read.csv("~/Desktop/mbb.csv", header = TRUE)
+
+
+####################################### Hierarchical Clustering ##############################################
+
+# The idea of which cases are like others (Like with like)
+
+# Approaches Hierarchical or set K (set number of groups)
+# Many choices for measure of distance
+# Divisive vs agglomerative
+# Divisive is where they are in groups and you try to partition them
+# Agglomerative where you start with small pieces and you work them into groups
+
+########### For this part of the code we are using euclidean distance, hierarchical clustering, and divisive method ###
+
+# I recommend "pacman" for managing add-on packages. It will
+# install packages, if needed, and then load the packages.
+install.packages("pacman")
+
+# Or, by using "pacman::p_load" you can use the p_load
+# function from pacman without actually loading pacman.
+# These are packages I load every time.
+pacman::p_load(pacman, dplyr, GGally, ggplot2, ggthemes, 
+               ggvis, httr, lubridate, plotly, rio, rmarkdown, shiny, 
+               stringr, tidyr) 
+
+library(datasets)
+
+head(mtcars)
+cars <- mtcars[, c(1:4, 6:7, 9:11)] # Selects the columns
+head(cars)
+
+# We need to use the pipe operator %>% from the dplyr package but pacman already loaded it for us
+
+hc <- cars %>%    # Uses the cars data
+  dist %>%    # Compute distance/dissimilarity matrix
+  hclust()    # Computer hierarchical cluster
+
+plot(hc) # plots a dendrogram
+browseURL("https://en.wikipedia.org/wiki/Dendrogram")
+
+# Doing boxes to plot
+
+rect.hclust(hc, k=2, border = "gray")
+rect.hclust(hc, k=3, border = "blue")
+rect.hclust(hc, k=4, border = "green4")
+rect.hclust(hc, k=5, border = "darkred")
+
+####################################### Regression ###########################################################
+
+# Uses many variables to predict scores on one variables
+
+head(USJudgeRatings)
+data <- USJudgeRatings
+
+x <- as.matrix(data[-12])
+y <- data[, 12]
+
+### Using all predictors ###
+# This is the simpliest regression
+reg1 <- lm(y~x); reg1 # Calling reg1 will give you the coefficients only
+summary(reg1) # Will allow you to do statistical inference 
+# You can manually input these using the names of the columns
+
+# Other types
+
+anova(reg1) # ANalysis Of VAriance 
+coef(reg1) # calls the coefficient same as just reg1
+confint(reg1) # For confidence intervals
+resid(reg1) # Residuals case-by-case
+hist(resid(reg1)) # Histogram of Residuals 
+
+##### Additional Models ###
+
+p_load(lars, caret)
+
+# lars: Least Angles Regressions
+# caret: classification and regression training
+
+# Conventional stepwise regression
+stepwise <- lars(x, y, type = "stepwise")
+
+# Stagewise: Like stepwise but with better generalizability
+forward <- lars(x, y, type = "forward.stagewise")
+
+# LAR: Least Angle Regression
+lar <- lars(x, y, type = "lar")
+
+# LASSO: Least Absolute Shrinkage and Selection Operator
+lasso <- lars(x, y, type = "lasso")
+
+# Comparison of R^2 for new models
+r2comp <- c(stepwise$R2[6], forward$R2[6], 
+            lar$R2[6], lasso$R2[6]) %>% 
+            round(2)
+names(r2comp) <- c("stepwise", "forward", "lar", "lasso") 
+r2comp  # Show values of R^2
